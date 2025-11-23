@@ -86,6 +86,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.lifecycle)
     implementation(libs.timber)
+    implementation(libs.androidx.compose.ui.text.google.fonts)
 
     ksp(libs.hilt.compiler)
     ksp(libs.room.compiler)
