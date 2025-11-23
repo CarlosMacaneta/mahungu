@@ -11,13 +11,13 @@ plugins {
 }
 
 android {
-    namespace = "com.macaneta.news"
+    namespace = "com.macaneta.mahungu"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.macaneta.news"
+        applicationId = "com.macaneta.mahungu"
         minSdk = 24
         targetSdk = 36
         versionCode = 1

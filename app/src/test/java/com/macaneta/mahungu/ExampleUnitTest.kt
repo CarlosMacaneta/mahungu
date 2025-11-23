@@ -1,4 +1,4 @@
-package com.macaneta.news
+package com.macaneta.mahungu
 
 import org.junit.Test
 

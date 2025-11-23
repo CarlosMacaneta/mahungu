@@ -1,4 +1,4 @@
-package com.macaneta.news
+package com.macaneta.mahungu
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,8 +10,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.macaneta.news.ui.theme.NewsTheme
+import com.macaneta.mahungu.ui.theme.NewsTheme
+import com.macaneta.mahungu.R
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
             NewsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
-                        name = "News",
+                        name = stringResource(R.string.app_name),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

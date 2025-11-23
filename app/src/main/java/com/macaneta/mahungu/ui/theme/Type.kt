@@ -1,4 +1,4 @@
-package com.macaneta.news.ui.theme
+package com.macaneta.mahungu.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
