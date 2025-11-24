@@ -2,6 +2,7 @@ package com.macaneta.mahungu.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -14,12 +15,15 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
+    ],
+    indices = [
+        Index("sourceId")
     ]
 )
 data class ArticleEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val sourceId: String?,
+    val sourceId: Int,
     val author: String?,
     val title: String,
     val description: String,

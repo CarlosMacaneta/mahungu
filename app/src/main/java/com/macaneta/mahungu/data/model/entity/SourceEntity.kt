@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "sources")
 data class SourceEntity(
-    @PrimaryKey val id: String?,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val key: String?,
     val name: String?,
     val description: String?,
     val url: String?,
