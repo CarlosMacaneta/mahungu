@@ -1,51 +1,46 @@
 package com.macaneta.mahungu.data.source.remote.repository.impl
 
-import com.macaneta.mahungu.data.model.api.Feed
-import com.macaneta.mahungu.data.model.error.ApiError
-import com.macaneta.mahungu.data.model.error.Status
-import com.macaneta.mahungu.data.source.Result
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.macaneta.mahungu.data.model.FeedQuery
+import com.macaneta.mahungu.data.model.entity.ArticleEntity
+import com.macaneta.mahungu.data.source.local.AppDatabase
 import com.macaneta.mahungu.data.source.remote.FeedApiService
+import com.macaneta.mahungu.data.source.remote.mediator.FeedRemoteMediator
 import com.macaneta.mahungu.data.source.remote.repository.FeedRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class FeedRepositoryImpl @Inject constructor(
+    private val appDb: AppDatabase,
     private val feedApiService: FeedApiService
 ) : FeedRepository {
-    override suspend fun fetchTopHeadlines(): Result<Feed> {
-        TODO("Not yet implemented")
-    }
 
-    override suspend fun fetchArticles(): Result<Feed?> {
-        val response = feedApiService.getFeed()
+    private val mediators = mutableMapOf<FeedQuery, FeedRemoteMediator>()
 
-        if (response.isSuccessful.not()) {
-            return Result.Error(
-                ApiError(
-                    Status.ERROR.status,
-                    response.code().toString(),
-                    response.message()
-                )
-            )
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getArticlesStream(query: FeedQuery): Flow<PagingData<ArticleEntity>> {
+        val label  = "feed_${query.hashCode()}"
+
+        val pagingSourceFactory = {
+            appDb.articleDao().pagingSource(label)
         }
 
-        val feed = response.body()
-
-        return when (feed?.status) {
-            Status.OK.status -> Result.Success(feed)
-            Status.ERROR.status -> {
-                Result.Error(
-                    ApiError(
-                        Status.ERROR.status,
-                        response.code().toString(),
-                        response.message()
-                    )
-                )
-            }
-            else -> Result.Error(Exception("Unknown error"))
+        val mediator = mediators.getOrPut(query) {
+            FeedRemoteMediator(feedApiService, appDb, query)
         }
+
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false,
+                prefetchDistance = 3
+            ),
+            remoteMediator = mediator,
+            pagingSourceFactory = pagingSourceFactory
+        ).flow
     }
 
-    override suspend fun searchArticles(query: String): Result<Feed> {
-        TODO("Not yet implemented")
-    }
 }

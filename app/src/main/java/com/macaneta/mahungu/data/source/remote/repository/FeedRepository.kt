@@ -1,10 +1,10 @@
 package com.macaneta.mahungu.data.source.remote.repository
 
-import com.macaneta.mahungu.data.model.api.Feed
-import com.macaneta.mahungu.data.source.Result
+import androidx.paging.PagingData
+import com.macaneta.mahungu.data.model.FeedQuery
+import com.macaneta.mahungu.data.model.entity.ArticleEntity
+import kotlinx.coroutines.flow.Flow
 
 interface FeedRepository {
-    suspend fun fetchTopHeadlines(): Result<Feed>
-    suspend fun fetchArticles(): Result<Feed?>
-    suspend fun searchArticles(query: String): Result<Feed>
+    fun getArticlesStream(query: FeedQuery): Flow<PagingData<ArticleEntity>>
 }
