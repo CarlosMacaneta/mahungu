@@ -6,7 +6,7 @@ import com.macaneta.mahungu.data.model.entity.ArticleEntity
 import com.macaneta.mahungu.data.model.entity.SourceEntity
 
 fun Source.toEntity() = SourceEntity(
-    id = id,
+    key = id,
     name = name,
     description = description,
     url = url,
@@ -16,7 +16,7 @@ fun Source.toEntity() = SourceEntity(
 )
 
 fun Article.toEntity(cacheLabel: String) = ArticleEntity(
-    source = source?.toEntity(),
+    sourceId = source?.toEntity()?.id ?: -1,
     author = author,
     title = title,
     description = description,
