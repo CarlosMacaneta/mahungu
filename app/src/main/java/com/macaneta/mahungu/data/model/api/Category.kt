@@ -1,6 +1,6 @@
 package com.macaneta.mahungu.data.model.api
 
-enum class Category(category: String) {
+enum class Category(val category: String) {
     BUSINESS("business"),
     ENTERTAINMENT("entertainment"),
     GENERAL("general"),
